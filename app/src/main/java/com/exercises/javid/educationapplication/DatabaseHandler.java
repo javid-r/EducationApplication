@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
+//import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,10 +17,10 @@ import java.util.HashMap;
  * Created by Javid on 1/26/2018.
  */
 
-public class DatabaseHandler extends SQLiteOpenHelper {
+public class DatabaseHandler extends SQLiteAssetHelper {
 
-    static final String DB_NAME = "education";
-    static final String DB_PATH = "/data/data/EducationApplication/databases/";
+    static final String DB_NAME = "education.db";
+    static final String DB_PATH = "/data/data/com.exercises.javid.educationapplication/databases/";
     static final String TABLE_NAME = "detail";
     static final String T_ID = "_id";
     static final String T_NAME = "name";
@@ -33,10 +35,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
+//    @Override
+//    public void onCreate(SQLiteDatabase db) {
+//
+//    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -85,7 +87,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         try {
             String dbPath = DB_PATH + DB_NAME;
-            SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
+//            SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
+
+            SQLiteDatabase db = this.getReadableDatabase();
 
             Cursor cursor = db.query(TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
                     null, null, null, null, null);
@@ -93,7 +97,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 for (int counter = 0; counter < cursor.getCount(); counter++) {
                     HashMap<String, String> record = new HashMap<>();
-                    record.put(T_ID, cursor.getString(cursor.getColumnIndex(T_ID)));
+                    record.put(T_ID, cursor.getInt(cursor.getColumnIndex(T_ID)) + "");
                     record.put(T_NAME, cursor.getString(cursor.getColumnIndex(T_NAME)));
                     record.put(T_DESC, cursor.getString(cursor.getColumnIndex(T_DESC)));
                     record.put(T_IMG, cursor.getString(cursor.getColumnIndex(T_IMG)));

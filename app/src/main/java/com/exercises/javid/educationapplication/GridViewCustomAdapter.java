@@ -14,14 +14,14 @@ import java.util.HashMap;
 
 public class GridViewCustomAdapter extends BaseAdapter {
     private Context context;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
 
     private ArrayList<HashMap<String, String>> mapList;
 
     public GridViewCustomAdapter(Context context) {
         mapList = new DatabaseHandler(context).getDataTable();
-        this.context=context;
-        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.context = context;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class GridViewCustomAdapter extends BaseAdapter {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Clicked "+ name, Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Clicked " + name, Toast.LENGTH_LONG).show();
             }
         });
 

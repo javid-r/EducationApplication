@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Activity context;
     private GridView grid;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
