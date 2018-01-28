@@ -15,7 +15,7 @@ import java.util.HashMap;
 
 public class GridViewCustomAdapter extends BaseAdapter {
     private Context context;
-    private static LayoutInflater inflater = null;
+    private LayoutInflater inflater = null;
 
     private ArrayList<HashMap<String, String>> mapList;
 

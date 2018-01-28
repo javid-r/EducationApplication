@@ -97,8 +97,10 @@ public class DatabaseHandler extends SQLiteAssetHelper {
         }
 
         if (db != null && db.isOpen()) {
-            Cursor cursor = db.query(TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
-                    null, null, null, null, T_ID);
+            Cursor cursor = db.query(
+                    TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
+                    null, null, null, null, T_ID
+            );
 
             if (cursor.moveToFirst()) {
                 for (int counter = 0; counter < cursor.getCount(); counter++) {
