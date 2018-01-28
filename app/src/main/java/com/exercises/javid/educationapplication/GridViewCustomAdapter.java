@@ -1,6 +1,7 @@
 package com.exercises.javid.educationapplication;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class GridViewCustomAdapter extends BaseAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         HashMap<String, String> map = mapList.get(position);
         final String name = map.get(DatabaseHandler.T_NAME);
+        final String id = map.get(DatabaseHandler.T_ID);
         final String img_name = map.get(DatabaseHandler.T_IMG);
         int img_id = context.getResources().getIdentifier(
                 img_name, "drawable", context.getPackageName());
@@ -57,7 +59,10 @@ public class GridViewCustomAdapter extends BaseAdapter {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Clicked " + name, Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, "Clicked " + name, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, DetailsActivity.class);
+                intent.putExtra(DatabaseHandler.T_ID, id);
+                context.startActivity(intent);
             }
         });
 

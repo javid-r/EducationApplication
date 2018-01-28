@@ -84,15 +84,21 @@ public class DatabaseHandler extends SQLiteAssetHelper {
     ArrayList<HashMap<String, String>> getDataTable() {
 
         ArrayList<HashMap<String, String>> dataList = new ArrayList<>();
+        SQLiteDatabase db = null;
 
         try {
-            String dbPath = DB_PATH + DB_NAME;
-//            SQLiteDatabase db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
+//            String dbPath = DB_PATH + DB_NAME;
+//            db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
 
-            SQLiteDatabase db = this.getReadableDatabase();
+            db = this.getReadableDatabase();
+        } catch (SQLiteException e) {
+            //database does't exist yet.
+            Log.e("My Cod: ", "DB is not there " + e.toString());
+        }
 
+        if (db != null && db.isOpen()) {
             Cursor cursor = db.query(TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
-                    null, null, null, null, null);
+                    null, null, null, null, T_ID);
 
             if (cursor.moveToFirst()) {
                 for (int counter = 0; counter < cursor.getCount(); counter++) {
@@ -106,32 +112,42 @@ public class DatabaseHandler extends SQLiteAssetHelper {
                     cursor.moveToNext();
                 }
             }
+
             cursor.close();
             db.close();
-        } catch (Exception e) {
-            //database does't exist yet.
-            Log.e("My Cod: ", "DB is not there " + e.toString());
         }
+
         return dataList;
     }
 
-    HashMap<String, String> getDataRecord(int position) {
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.query(TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
-                null, null, null, null, null);
-
-        cursor.moveToPosition(position);
+    HashMap<String, String> getDataRecord(String t_ID) {
 
         HashMap<String, String> record = new HashMap<>();
-        record.put("id", cursor.getString(cursor.getColumnIndex(T_ID)));
-        record.put("name", cursor.getString(cursor.getColumnIndex(T_NAME)));
-        record.put("desc", cursor.getString(cursor.getColumnIndex(T_DESC)));
-        record.put("img", cursor.getString(cursor.getColumnIndex(T_IMG)));
-        record.put("voice", cursor.getString(cursor.getColumnIndex(T_VO)));
+        SQLiteDatabase db = null;
+        String selection = T_ID + " = " + t_ID;
 
-        cursor.close();
+        try {
+            db = this.getReadableDatabase();
+        } catch (SQLiteException e) {
+            //database does't exist yet.
+            Log.e("My Cod: ", "DB is not there " + e.toString());
+        }
+
+        if (db != null && db.isOpen()) {
+            Cursor cursor = db.query(TABLE_NAME, new String[]{T_ID, T_NAME, T_DESC, T_IMG, T_VO},
+                    selection, null, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                record.put(T_ID, cursor.getInt(cursor.getColumnIndex(T_ID)) + "");
+                record.put(T_NAME, cursor.getString(cursor.getColumnIndex(T_NAME)));
+                record.put(T_DESC, cursor.getString(cursor.getColumnIndex(T_DESC)));
+                record.put(T_IMG, cursor.getString(cursor.getColumnIndex(T_IMG)));
+                record.put(T_VO, cursor.getString(cursor.getColumnIndex(T_VO)));
+            }
+            cursor.close();
+            db.close();
+        }
+
         return record;
     }
 }
