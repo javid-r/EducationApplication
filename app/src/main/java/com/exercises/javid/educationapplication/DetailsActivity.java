@@ -69,7 +69,6 @@ public class DetailsActivity extends AppCompatActivity {
         ((ImageView) findViewById(R.id.img_content)).setImageResource(image);
         player = MediaPlayer.create(context, voice);
 
-
         btnPlayPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,6 +97,7 @@ public class DetailsActivity extends AppCompatActivity {
             btnPlayPause.setBackgroundResource(R.drawable.ic_play);
         }
     }
+
 
     @Override
     protected void onDestroy() {
